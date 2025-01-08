@@ -1,6 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import { User } from '../models/User.mjs';
-import {validateRegisterUser, validateLoginUser, validateUpdateUser } from '../models/validation.mjs';
+import { validateRegisterUser, validateLoginUser } from '../models/validation.mjs';
 import bcrypt from 'bcryptjs';
 
 // Controller for registering a new user
@@ -13,13 +13,11 @@ export const registerUserCtrl = asyncHandler(async (req, res) => {
 
   // Check if a user with the provided email already exists in the database
   const user = await User.findOne({ email: req.body.email });
-
+  if (user) {
+    return res.status(400).json({ message: 'The user is already exists' }); // Return error if user exists
+  }
   // Generate a salt and hash the provided password
   const salt = await bcrypt.genSalt(10); // Generate a unique salt
-
-  if (user) {
-    return res.status(400).json({ message: 'The user already exists' }); // Return error if user exists
-  }
   const hashedPassword = await bcrypt.hash(req.body.password, salt); // Hash the password with the salt
 
   // Create a new user document with the hashed password and save it to the database

@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
-import joi from 'joi'
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken' // Import JSON Web Token for generating authentication tokens
 import dotenv from 'dotenv'
 dotenv.config()
+// Define the schema for the User model
 const UserSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -29,7 +29,7 @@ const UserSchema = new mongoose.Schema({
     type: Object,
     default: {
       url: "https://cdn.pixabay.com/photo/2014/04/02/14/10/female-306407_1280.png",
-      publicId: null,
+      publicId: null, // Default value for the public ID (if applicable for cloud storage)
     },
   },
   bio: {
@@ -43,38 +43,16 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-}, { timestamps: true }); // Moved here
+}, { timestamps: true });  // Add createdAt and updatedAt timestamps automatically
 
-UserSchema.methods.generateAuthToken= function (){
-  return  jwt.sign({id:this._id, isAdmin: this.isAdmin},process.env.SECRET_KEY)
-}
+// Method to generate a JWT authentication token for the user
+UserSchema.methods.generateAuthToken = function () {
+  return jwt.sign({ id: this._id, isAdmin: this.isAdmin }, // Payload contains user ID and admin status
+    process.env.SECRET_KEY // Secret key is stored in environment variables
+  );
+};
+// Create the User model from the schema
 const User = mongoose.model("User", UserSchema)
 
 
-// function validateRegisterUser
-//   (obj) {
-//   const schema = joi.object({
-//     username: joi.string().trim().min(6).max(20).required(),
-//     email: joi.string().trim().email().required(),
-//     password: joi.string().trim().min(8).required(),
-//   })
-//   return schema.validate(obj)
-// }
-// function validateLoginUser(obj) {
-//   const schema = joi.object({
-//     email: joi.string().trim().email(),
-//     password: joi.string().trim().min(8).required()
-//   })
-//   return schema.validate(obj)
-// }
-
-// function validateUpdateUser(obj) {
-//   const schema = joi.object({
-//     username: joi.string().trim().min(2).max(20),
-//     password: joi.string().trim().min(8),
-//     bio: joi.string()
-//   })
-//   return schema.validate(obj)
-// }
-
-export { User}  
+export { User }  
