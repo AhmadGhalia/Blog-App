@@ -1,23 +1,27 @@
-import express from 'express'
-import dotenv from 'dotenv'
-dotenv.config()
-import authRouter from './routes/authroute.mjs'
-import userRouter from './routes/userRoute.mjs'
+import express from 'express';
+import dotenv from 'dotenv';
+import authRouter from './routes/authroute.mjs';
+import userRouter from './routes/userRoute.mjs';
+import connectToDb from './config/connectedToDb.mjs';
 
-import connectToDb from './config/connectedToDb.mjs'
-connectToDb()
-const app = express()
+// Establish connection to the MongoDB database
+connectToDb();
 
-//middlewares  
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
-app.use(express.static('public'))
+dotenv.config();
 
-//routes
-app.use('/api/auth', authRouter)
-app.use('/api/users', userRouter)
+const app = express(); // Initialize the Express application
 
-const port = process.env.PORT || 8000
+// Middleware setup
+app.use(express.json()); // Middleware to parse incoming JSON request bodies
+app.use(express.urlencoded({ extended: true })); // Middleware to parse URL-encoded data
+app.use(express.static('public')); // Serve static files from the "public" directory
+
+// Routes setup
+app.use('/api/auth', authRouter); // Routes for authentication-related operations
+app.use('/api/users', userRouter); // Routes for user management operations
+
+// Server configuration
+const port = process.env.PORT || 8000; // Use PORT from environment variables or default to 8000
 app.listen(port, () =>
-  console.log(`server is running in ${process.env.NODE_ENV} on port: ${port}`)
-)
+  console.log(`Server is running in ${process.env.NODE_ENV} enviroment on port: ${port}`) // Log the server's environment and port
+);

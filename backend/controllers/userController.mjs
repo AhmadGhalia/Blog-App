@@ -1,12 +1,13 @@
 import asyncHandler from 'express-async-handler';
-import { User, validateRegisterUser, validateLoginUser,validateUpdateUser} from '../models/User.mjs'
+import { User} from '../models/User.mjs'
+import { validateUpdateUser } from '../models/validation.mjs';
 import bcrypt from 'bcryptjs';
 const getAllUsersCtrl = asyncHandler(async (req, res) => {
   const users = await User.find().select('-password')
   res.status(200).json(users)
 })
 const getUserCount = asyncHandler(async (req, res) => {
-  const count = await User.countDocuments(); 
+  const count = await User.countDocuments();  
   res.status(200).json(count)
 })
 

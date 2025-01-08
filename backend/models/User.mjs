@@ -51,30 +51,30 @@ UserSchema.methods.generateAuthToken= function (){
 const User = mongoose.model("User", UserSchema)
 
 
-function validateRegisterUser
-  (obj) {
-  const schema = joi.object({
-    username: joi.string().trim().min(6).max(20).required(),
-    email: joi.string().trim().email().required(),
-    password: joi.string().trim().min(8).required(),
-  })
-  return schema.validate(obj)
-}
-function validateLoginUser(obj) {
-  const schema = joi.object({
-    email: joi.string().trim().email(),
-    password: joi.string().trim().min(8).required()
-  })
-  return schema.validate(obj)
-}
+// function validateRegisterUser
+//   (obj) {
+//   const schema = joi.object({
+//     username: joi.string().trim().min(6).max(20).required(),
+//     email: joi.string().trim().email().required(),
+//     password: joi.string().trim().min(8).required(),
+//   })
+//   return schema.validate(obj)
+// }
+// function validateLoginUser(obj) {
+//   const schema = joi.object({
+//     email: joi.string().trim().email(),
+//     password: joi.string().trim().min(8).required()
+//   })
+//   return schema.validate(obj)
+// }
 
-function validateUpdateUser(obj) {
-  const schema = joi.object({
-    username: joi.string().trim().min(2).max(20),
-    password: joi.string().trim().min(8),
-    bio: joi.string()
-  })
-  return schema.validate(obj)
-}
+// function validateUpdateUser(obj) {
+//   const schema = joi.object({
+//     username: joi.string().trim().min(2).max(20),
+//     password: joi.string().trim().min(8),
+//     bio: joi.string()
+//   })
+//   return schema.validate(obj)
+// }
 
-export { User, validateRegisterUser, validateLoginUser , validateUpdateUser}  
+export { User}  

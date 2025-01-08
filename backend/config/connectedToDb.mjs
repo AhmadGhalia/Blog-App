@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import * as dotenv from 'dotenv';
-
 // Load environment variables from a .env file into process.env
 dotenv.config();
 
@@ -13,10 +12,10 @@ async function connectToDb() {
     // Attempt to connect to the database using the connection string
     await mongoose.connect(url);
     console.log("Connected to the database successfully!"); // Log success message
-  } catch (error) {
+  } catch (error) { 
     // Catch and log any errors during the connection attempt
     console.error("Failed to connect to the database:", error.message);
-  }
+  }  
 }
 
 // Export the connectToDb function for use in other parts of the application

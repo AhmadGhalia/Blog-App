@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler';
-import { User, validateRegisterUser, validateLoginUser, validateUpdateUser } from '../models/User.mjs';
+import { User } from '../models/User.mjs';
+import {validateRegisterUser, validateLoginUser, validateUpdateUser } from '../models/validation.mjs';
 import bcrypt from 'bcryptjs';
 
 // Controller for registering a new user
@@ -64,4 +65,4 @@ export const loginUser = asyncHandler(async (req, res) => {
     profilePhoto: user.profilePhoto,
     token,
   });
-});
+}); 
