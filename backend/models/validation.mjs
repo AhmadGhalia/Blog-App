@@ -4,7 +4,7 @@ import joi from 'joi'; // Import Joi for schema validation
 function validateRegisterUser(obj) {
   const schema = joi.object({
     username: joi.string().trim().min(6).max(20).required(), // Username must be 6-20 characters long, trimmed, and required
-    email: joi.string().trim().email().required(), 
+    email: joi.string().trim().email().required(),
     password: joi.string().trim().min(8).required(),
   });
   return schema.validate(obj); // Validate the input object against the schema
@@ -13,8 +13,8 @@ function validateRegisterUser(obj) {
 // Function to validate user login data
 function validateLoginUser(obj) {
   const schema = joi.object({
-    email: joi.string().trim().email().required(), 
-    password: joi.string().trim().min(8).required(), 
+    email: joi.string().trim().email().required(),
+    password: joi.string().trim().min(8).required(),
   });
   return schema.validate(obj);
 }
@@ -26,7 +26,28 @@ function validateUpdateUser(obj) {
     password: joi.string().trim().min(8),
     bio: joi.string(), // Bio can be any string (optional)
   });
-  return schema.validate(obj); 
+  return schema.validate(obj);
 }
 
-export { validateRegisterUser, validateLoginUser, validateUpdateUser };
+
+// Function to validate user update data
+function validateCreatePost(obj) {
+  const schema = joi.object({
+    title: joi.string().trim().min(6).max(200).required(),
+    description: joi.string().trim().min(8).required(),
+    category: joi.string().trim().required(), // Bio can be any string (optional)
+  });
+  return schema.validate(obj);
+}
+
+// Function to validate user update data
+function validateUpdatePost(obj) {
+  const schema = joi.object({
+    title: joi.string().trim().min(6).max(200),
+    description: joi.string().trim().min(8),
+    category: joi.string().trim(), // Bio can be any string (optional)
+  });
+  return schema.validate(obj);
+}
+
+export { validateRegisterUser, validateLoginUser, validateUpdateUser, validateCreatePost, validateUpdatePost };

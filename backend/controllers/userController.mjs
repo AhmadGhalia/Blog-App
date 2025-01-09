@@ -2,10 +2,10 @@ import asyncHandler from 'express-async-handler';
 import { User } from '../models/User.mjs';
 import { validateUpdateUser } from '../models/validation.mjs';
 import bcrypt from 'bcryptjs';
-import path from 'path'
+import path from 'path';
 import { fileURLToPath } from 'url';
 import { cloudinaryUploadImage, cloudinaryRemoveImage } from '../utils/cloudinaryConfig.mjs'
-import fs from 'fs'
+import fs from 'fs';
 
 // Define __dirname for ESM
 const __filename = fileURLToPath(import.meta.url);
@@ -108,6 +108,24 @@ const uploudUserPhoto = asyncHandler(async (req, res) => {
     publicId: result.public_id
   });
   fs.unlinkSync(imagePath)
-  // return res.status(200).json({message: 'ggod'})
-})
-export { getAllUsersCtrl, getUserCtrl, updateUserProfileCtrl, getUserCount, uploudUserPhoto };
+});
+
+
+/**--------------------------------------------
+ * @desc   delete user
+ * @route  /users/profile/delete/:id
+ * @method delete
+ * @access Token (Admin or user)
+ ----------------------------------------------*/
+const deleteUserCtrl = asyncHandler(async (req, res) => {
+
+  const user = await User.findById(req.params.id)
+  if (!user) {
+    res.status(400).json({ message: 'User Not Found' })
+  }
+  
+  await cloudinaryRemoveImage(user.profilePhoto.publicId)
+  await User.findByIdAndDelete(req.params.id)
+  res.status(200).json({ message: 'The user deleted successfully' });
+});
+export { getAllUsersCtrl, getUserCtrl, updateUserProfileCtrl, getUserCount, uploudUserPhoto, deleteUserCtrl };

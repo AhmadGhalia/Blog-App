@@ -1,7 +1,7 @@
-import { getAllUsersCtrl, getUserCtrl, updateUserProfileCtrl, getUserCount, uploudUserPhoto } from '../controllers/userController.mjs';
+import { getAllUsersCtrl, getUserCtrl, updateUserProfileCtrl, getUserCount, uploudUserPhoto, deleteUserCtrl } from '../controllers/userController.mjs';
 import express from 'express';
 // Import middleware functions to verify tokens and access permissions
-import {verifyToken, verifyAdmin, verifytokenOnlyUser } from '../middlewares/varifyToken.mjs';
+import { verifyToken, verifyAdmin, verifytokenOnlyUser ,verifytokenOnlyUserAndAdmin } from '../middlewares/varifyToken.mjs';
 // Import middleware to validate MongoDB Object IDs
 import validateObjectId from '../middlewares/validateObjectId.mjs';
 
@@ -30,7 +30,7 @@ route.get('/profile/:id', validateObjectId, getUserCtrl);
 route.put('/profile/:id', validateObjectId, verifytokenOnlyUser, updateUserProfileCtrl);
 
 
-route.post('/profile/profile-photo-upload',verifyToken, photoUpload.single('image'), uploudUserPhoto);
+route.post('/profile/profile-photo-upload', verifyToken, photoUpload.single('image'), uploudUserPhoto);
 
-uploudUserPhoto 
+route.delete('/profile/:id',validateObjectId, verifytokenOnlyUserAndAdmin, deleteUserCtrl)
 export default route;

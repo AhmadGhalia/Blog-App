@@ -48,4 +48,17 @@ function verifytokenOnlyUser(req, res, next) {
   });
 }
 
-export { verifyToken, verifyAdmin, verifytokenOnlyUser };
+// Middleware to verify if the authenticated user is accessing their own resource or the admin
+function verifytokenOnlyUserAndAdmin(req, res, next) {
+  verifyToken(req, res, () => {
+    // Check if the authenticated user's ID matches the ID in the request parameters
+    if (req.user.id === req.params.id || req.user.isAdmin) {
+      next();
+    } else {
+      // Deny access if the user is trying to access someone else's resource
+      return res.status(403).json({ message: "Not allowed, only the user can delete their own resource or the admin" });
+    }
+  });
+}
+
+export { verifyToken, verifyAdmin, verifytokenOnlyUser, verifytokenOnlyUserAndAdmin };

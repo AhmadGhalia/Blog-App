@@ -11,4 +11,4 @@ route.post('/register', registerUserCtrl);
 route.post('/login', loginUser); 
 // Handles POST requests to '/login' endpoint using the `loginUser` controller
 
-export default route; 
+export default route;
