@@ -17,7 +17,7 @@ const __dirname = path.dirname(__filename);
  * @access Admin
  ----------------------------------------------*/
 const getAllUsersCtrl = asyncHandler(async (req, res) => {
-  const users = await User.find().select('-password'); // Exclude 'password' field
+  const users = await User.find().select('-password').populate('Posts'); // Exclude 'password' field
   res.status(200).json(users);
 });
 
@@ -123,7 +123,6 @@ const deleteUserCtrl = asyncHandler(async (req, res) => {
   if (!user) {
     res.status(400).json({ message: 'User Not Found' })
   }
-  
   await cloudinaryRemoveImage(user.profilePhoto.publicId)
   await User.findByIdAndDelete(req.params.id)
   res.status(200).json({ message: 'The user deleted successfully' });

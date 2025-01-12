@@ -43,8 +43,18 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-}, { timestamps: true });  // Add createdAt and updatedAt timestamps automatically
+}, {
+  timestamps: true,
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
+}
+);  // Add createdAt and updatedAt timestamps automatically
 
+UserSchema.virtual('Posts', {
+  ref: 'Post',
+  localField: '_id',
+  foreignField: 'user'
+})
 // Method to generate a JWT authentication token for the user
 UserSchema.methods.generateAuthToken = function () {
   return jwt.sign({ id: this._id, isAdmin: this.isAdmin }, // Payload contains user ID and admin status

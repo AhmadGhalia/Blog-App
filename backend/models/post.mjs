@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
-import jwt from 'jsonwebtoken' // Import JSON Web Token for generating authentication tokens
 import dotenv from 'dotenv'
-import  joi  from "joi";
 dotenv.config()
 // Define the schema for the User model
 const PostSchema = new mongoose.Schema({

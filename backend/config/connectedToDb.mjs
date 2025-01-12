@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import * as dotenv from 'dotenv';
 // Load environment variables from a .env file into process.env
-dotenv.config();
+dotenv.config(); 
 
 // Get the database connection string from environment variables
 const url = process.env.CONNECTING_STRING; // Ensure CONNECTING_STRING is set in your .env file

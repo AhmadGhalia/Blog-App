@@ -50,4 +50,22 @@ function validateUpdatePost(obj) {
   return schema.validate(obj);
 }
 
-export { validateRegisterUser, validateLoginUser, validateUpdateUser, validateCreatePost, validateUpdatePost };
+
+// Function to validate comment data
+function validateCreateComment(obj) {
+  const schema = joi.object({
+    postId: joi.string().required(),
+    text: joi.string().trim().required()
+  });
+  return schema.validate(obj);
+}
+
+// Function to validate update comment
+function validateUpdateComment(obj) {
+  const schema = joi.object({
+    text: joi.string().trim().required()
+  });
+  return schema.validate(obj);
+}
+
+export { validateRegisterUser, validateLoginUser, validateUpdateUser, validateCreatePost, validateUpdatePost, validateCreateComment, validateUpdateComment };
