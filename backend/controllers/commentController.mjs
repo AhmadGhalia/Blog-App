@@ -39,8 +39,29 @@ const deleteComment = asynchandler(async (req, res) => {
   else {
     res.status(403).json({ message: 'You are not allowed to delete this comment' })
   }
-
 })
 
 
-export { createNewComment, getAllComment, deleteComment }
+const updateComment = asynchandler(async (req, res) => {
+  const comment = await Comment.findById(req.params.id)
+  if (!comment) {
+    res.status(404).json({ message: 'comment not found' })
+  }
+  const { error } = validation.validateUpdateComment(req.body)
+  if (error) {
+    return res.status(400).json({ message: error.details[0].message })
+  }
+  if (req.user.isAdmin || req.user.id !== comment.user.toString()) {
+
+    res.status(200).json({ message: 'Only admin and user himselv can update the comment' })
+  }
+  const profile = await User.findById(req.user.id)
+  const updatedComment = await Comment.findByIdAndUpdate(req.params.id, {
+    $set: {
+      text: req.body.text,
+    }
+
+  }, { new: true })
+  res.status(200).json({ message: 'The comment updated successfully', updatedComment })
+})
+export { createNewComment, getAllComment, deleteComment , updateComment}
