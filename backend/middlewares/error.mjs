@@ -12,7 +12,7 @@ const errorHandler = (err, req, res, next) => {
   res.states(stetusCode).json({
     message: err.message,
     stack: process.env.NODE_ENV === ' production' ? null : err.stack,
-
   })
 }
+
 export { errorHandler,notFound }

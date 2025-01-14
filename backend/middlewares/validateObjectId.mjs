@@ -1,6 +1,6 @@
 import mongoose from "mongoose"; // Import mongoose for ObjectId validation
 
-// Middleware to validate a MongoDB ObjectId
+// - Middleware to validate a MongoDB ObjectId
 // - Checks if the `id` is a valid MongoDB ObjectId
 // - Proceeds to the next middleware or route handler if valid
 function validateObjectId(req, res, next) {

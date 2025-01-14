@@ -4,9 +4,9 @@ import authRouter from './routes/authRoute.mjs';
 import userRouter from './routes/userRoute.mjs';
 import postRouter from './routes/postRoute.mjs';
 import connectToDb from './config/connectedToDb.mjs';
-import commentRouter from './routes/commentRoute.mjs'
+import commentRouter from './routes/commentRoute.mjs';
 import CategoryRoute from './routes/categoryRoute.mjs';
-import { errorHandler, notFound } from './middlewares/error.mjs'
+import { errorHandler, notFound } from './middlewares/error.mjs';
 
 // Establish connection to the MongoDB database
 connectToDb();
