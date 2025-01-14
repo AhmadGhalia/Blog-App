@@ -68,4 +68,11 @@ function validateUpdateComment(obj) {
   return schema.validate(obj);
 }
 
-export { validateRegisterUser, validateLoginUser, validateUpdateUser, validateCreatePost, validateUpdatePost, validateCreateComment, validateUpdateComment };
+function validateCreateCategory(obj) {
+  const schema = joi.object({
+    title: joi.string().trim().required()
+  });
+  return schema.validate(obj);
+}
+
+export { validateRegisterUser, validateLoginUser, validateUpdateUser, validateCreatePost, validateUpdatePost, validateCreateComment, validateUpdateComment,validateCreateCategory };

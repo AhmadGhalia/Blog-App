@@ -23,10 +23,19 @@ const cloudinaryUploadImage = async (fileToUpload) => {
 
 const cloudinaryRemoveImage = async (imagePublicId) => {
   try {
-    const resoult = await cloudinary.uploader.destroy(imagePublicId);
+    const data = await cloudinary.uploader.destroy(imagePublicId);
     return data;
   } catch (error) {
     return error
   }
 }
-export {cloudinaryUploadImage, cloudinaryRemoveImage}
+
+const cloudinaryRemoveMultipleImage = async (publicIds) => {
+  try {
+    const data = await cloudinary.v2.delete_resources(publicIds);
+    return data;
+  } catch (error) {
+    return error
+  }
+}
+export {cloudinaryUploadImage, cloudinaryRemoveImage,cloudinaryRemoveMultipleImage}

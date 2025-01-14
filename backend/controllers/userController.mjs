@@ -4,8 +4,10 @@ import { validateUpdateUser } from '../models/validation.mjs';
 import bcrypt from 'bcryptjs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { cloudinaryUploadImage, cloudinaryRemoveImage } from '../utils/cloudinaryConfig.mjs'
+import { cloudinaryUploadImage, cloudinaryRemoveImage, cloudinaryRemoveMultipleImage } from '../utils/cloudinaryConfig.mjs'
 import fs from 'fs';
+import { Post } from '../models/post.mjs';
+
 
 // Define __dirname for ESM
 const __filename = fileURLToPath(import.meta.url);
@@ -121,10 +123,18 @@ const deleteUserCtrl = asyncHandler(async (req, res) => {
 
   const user = await User.findById(req.params.id)
   if (!user) {
-    res.status(400).json({ message: 'User Not Found' })
+    return res.status(400).json({ message: 'User Not Found' })
   }
+  const posts = await Post.find({ user: user._id })
+  const publicIds = posts?.map((post) => post.image.publicId)
+  if (publicIds?.length > 0) {
+    await cloudinaryRemoveMultipleImage(publicIds)
+  }
+
   await cloudinaryRemoveImage(user.profilePhoto.publicId)
   await User.findByIdAndDelete(req.params.id)
-  res.status(200).json({ message: 'The user deleted successfully' });
+  await Post.deleteMany({ user: user._id })
+  await Comment.deleteMany({ user: user._id })
+  return res.status(200).json({ message: 'The user deleted successfully' });
 });
 export { getAllUsersCtrl, getUserCtrl, updateUserProfileCtrl, getUserCount, uploudUserPhoto, deleteUserCtrl };

@@ -1,8 +1,10 @@
 import mongoose from "mongoose";
-import dotenv from 'dotenv'
-dotenv.config()
-// Define the schema for the User model
+import dotenv from 'dotenv';
+dotenv.config();
+
+// Define the schema for the User model.
 const PostSchema = new mongoose.Schema({
+
   title: {
     type: String,
     required: true,
@@ -10,6 +12,7 @@ const PostSchema = new mongoose.Schema({
     minlength: 2,
     maxlength: 20,
   },
+
   description: {
     type: String,
     required: true,
@@ -17,14 +20,17 @@ const PostSchema = new mongoose.Schema({
     minlength: 6,
     maxlength: 200,
   },
+
+
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true,
   },
+
   category: {
     type: String,
-    required: true
+    required: true,
   },
   image: {
     type: Object,
@@ -45,12 +51,10 @@ const PostSchema = new mongoose.Schema({
   toObject: { virtuals: true }
 });  // Add createdAt and updatedAt timestamps automatically
 
-UserSchema.virtual('comments', {
+PostSchema.virtual('comments', {
   ref: 'Comment',
   localField: '_id',
-  foreignField: 'postId'
+  foreignField: 'postId',
 })
 const Post = mongoose.model("Post", PostSchema);
-
-
-export {Post}
+export { Post }

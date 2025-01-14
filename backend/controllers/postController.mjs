@@ -5,6 +5,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { cloudinaryUploadImage, cloudinaryRemoveImage } from '../utils/cloudinaryConfig.mjs'
 import fs, { read } from 'fs';
+import { Comment } from '../models/Comment.mjs'
+
 // Define __dirname for ESM
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -96,6 +98,8 @@ const deleteSinglePostCtrl = asyncHandler(async (req, res) => {
   if (req.user.isAdmin || req.user.id === post.user.toString()) {
     await Post.findByIdAndDelete(req.params.id)
     await cloudinaryRemoveImage(post.image.publicId)
+    await Comment.deleteMany({ postId: post._id })
+
     res.status(200).json({ message: 'The post is deleted', postID: post._id })
   }
   else {
